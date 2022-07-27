@@ -2,11 +2,10 @@ from random import randint
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.graphics.context_instructions import Color
-from kivy.graphics.vertex_instructions import Line, Rectangle
+from kivy.graphics.vertex_instructions import Rectangle
 from kivy.clock import Clock
 from kivy.core.window import Window
 from kivy.uix.label import Label
-from kivy.properties import NumericProperty
 from kivy.metrics import dp
 import colorsys
 
