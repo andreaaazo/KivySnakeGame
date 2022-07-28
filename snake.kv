@@ -1,1 +1,20 @@
 MainWidget:
+
+<MainMenu>:
+    Label:
+        text: "The Snake Game"
+        pos_hint: {"center_x" : .5, "center_y" : .6}
+        font_name: "lib/font.ttf"
+        font_size: 100
+
+    Button:
+        text: "Start"
+        pos_hint: {"center_x" : .5, "center_y" : .4}
+        size_hint: .2, .1
+        on_press: root.parent.new_game()
+
+    Switch:
+        pos_hint: {"center_x" : .15, "center_y" : .1}
+        size_hint: .1, .05
+
+<MainWidget>:

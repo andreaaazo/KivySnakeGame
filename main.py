@@ -1,6 +1,5 @@
 from random import randint
 from kivy.app import App
-from kivy.uix.widget import Widget
 from kivy.graphics.context_instructions import Color
 from kivy.graphics.vertex_instructions import Rectangle
 from kivy.clock import Clock
@@ -8,17 +7,26 @@ from kivy.core.window import Window
 from kivy.uix.label import Label
 from kivy.metrics import dp
 import colorsys
+from kivy.lang.builder import Builder
+from kivy.uix.relativelayout import RelativeLayout
+from kivy.properties import ObjectProperty
 
 
-class MainWidget(Widget):
+class MainMenu(RelativeLayout):
+    pass
+
+
+class MainWidget(RelativeLayout):
     snake_parts = []
     difficulty = 20
     movex = 0
     movey = 0
-    game_speed = 0.2
+    game_speed = 0.05
     game_over = False
     score = 0
     hue = 0
+    game_status = False
+    menu = MainMenu()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -38,6 +46,7 @@ class MainWidget(Widget):
         self.movey = 0
         self.game_over = False
         self.score = 0
+        self.hue = 0
 
         with self.canvas:
             Color(1, 1, 1)
@@ -51,8 +60,11 @@ class MainWidget(Widget):
             size=(100, 100),
             font_name="lib/font.ttf",
             font_size=dp(50),
+            pos=(0, 0),
         )
-        self.add_widget(self.score_label)
+
+        self.add_widget(self.menu)
+
         Clock.schedule_interval(self.start_game, self.game_speed)
 
     def update_init_game(self):
@@ -151,29 +163,31 @@ class MainWidget(Widget):
 
         # Game over
         if self.game_over:
+            self.game_status = False
             Clock.unschedule(self.start_game)
             self.canvas.clear()
             self.init_game()
+            self.add_widget(self.menu)
             self.update_init_game()
 
     def on_keyboard_down(self, keyboard, keycode, text, modifiers):
-        if keycode[1] == "up":
+        if keycode[1] == "up" and self.game_status:
             self.movey = self.sizey
             self.movex = 0
-        elif keycode[1] == "down":
+        elif keycode[1] == "down" and self.game_status:
             self.movey = -self.sizey
             self.movex = 0
-        elif keycode[1] == "left":
+        elif keycode[1] == "left" and self.game_status:
             self.movex = -self.sizex
             self.movey = 0
-        elif keycode[1] == "right":
+        elif keycode[1] == "right" and self.game_status:
             self.movex = self.sizex
             self.movey = 0
         return True
 
-
-class SnakeParts(Widget):
-    pass
+    def new_game(self):
+        self.menu.opacity = 0
+        self.game_status = True
 
 
 class SnakeApp(App):
