@@ -38,6 +38,7 @@ class MainWidget(Widget):
         self.movey = 0
         self.game_over = False
         self.score = 0
+        self.hue = 0
 
         with self.canvas:
             Color(1, 1, 1)
